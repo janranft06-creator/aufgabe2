@@ -17,12 +17,12 @@ class Matrix:
         
             groesse = int(file.readline())
 
-            for i in range(groesse):
-                zeilea: str = file.readline()
-                a: list[str] = zeilea.split()
-                aa = map(float,a)
-                listea:list[float] = list(aa)
-                matrixa.append(listea)
+            for i in range(groesse):                            #z.b. txt:         1 2 3 4 5
+                zeilea: str = file.readline()                   #                 "1 2 3 4 5"
+                a: list[str] = zeilea.split()                   #                 "1","2","3","4","5"
+                aa = map(float,a)                               #                  1.,2.,3.,4.,5.
+                listea:list[float] = list(aa)                   #                 [1.,2.,3.,4.,5.]
+                matrixa.append(listea)                          #                [[1.,2.,3.,4.,5.],[1.,2.,3.,4.,5.]]
 
             zeileb: str = file.readline()
             b: list[str] = zeileb.split()
@@ -67,4 +67,29 @@ class Matrix:
                 x[i] = xn[i]
 
             iteration += 1
+
         return x,iteration+1,euklid
+
+    def beurteilung_erfolg(self,n,a,b,x):
+
+        forderung = 0.05
+
+        bn = []
+
+        for i in range(n):
+            bn.append(0)
+
+        for i in range(n):
+            for o in range(n):
+                bn[i] += a[i][o] * x[o]
+
+        abstand = sum(math.sqrt(((bn[i]) - (b[i]))**2) for i in range(n))   
+
+        if forderung >= abstand:
+                beurteilung = "erfolgreich"
+
+        else: beurteilung = "nicht erfolgreich"
+
+         
+
+        return beurteilung,abstand
