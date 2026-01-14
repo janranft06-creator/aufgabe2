@@ -72,7 +72,7 @@ class Matrix:
 
     def beurteilung_erfolg(self,n,a,b,x):
 
-        forderung = 0.05
+        forderung = 0.01
 
         bn = []
 
@@ -90,6 +90,4 @@ class Matrix:
 
         else: beurteilung = "nicht erfolgreich"
 
-         
-
-        return beurteilung,abstand
+        return beurteilung,abstand,bn

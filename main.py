@@ -1,8 +1,13 @@
 from matrix import Matrix
+from dialog import Dialog
 
 def main():
 
-    matrix = Matrix(epsillon=0.0005,anzahl=61)
+    dialog = Dialog()
+
+    datei = dialog.lesen()
+
+    matrix = Matrix(epsillon=0.0005,anzahl=10)
 
     eingelesen = matrix.einlesen_datei()
 
@@ -19,7 +24,10 @@ def main():
     beurteilung = erfolg[0]
     abstand = erfolg[1]
 
-    print(f"Ein näherungsweise passender Vektor x: {x}\nDie Anzahl der vollendeten Iterationen: {iterationen}\nDie hinterbliebende euklidische Entfernung: {entfernung}\nDie Berechnung war {beurteilung}, da der mittlere Abstand von b' zu b {abstand} ist.")
+    print(f"Ein näherungsweise passender Vektor x: {x}")
+    print(f"Die Anzahl der vollendeten Iterationen: {iterationen}")
+    print(f"Die hinterbliebende euklidische Entfernung: {entfernung}")
+    print(f"Die Berechnung war {beurteilung}, da der mittlere Abstand von b' zu b {abstand} ist.")
 
 if __name__ == "__main__":
     main()
