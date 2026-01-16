@@ -1,35 +1,45 @@
 import math
-from os import read
-from typing import List, Tuple
 
 class Matrix:
-
-    def __init__(self,epsillon:float,anzahl:int):
-        self.epsillon = epsillon
-        self.anzahl = anzahl
-
-    def pruefe_anwendbarkeit(self):
-        pass
-
-    def einlesen_datei(self):
-        with open("input.txt") as file:
-            matrixa = []
         
-            groesse = int(file.readline())
+    def __init__(self,anzahl:int,epsillon:float):
+        self.anzahl = anzahl
+        self.epsillon = epsillon
+        
+    def pruefe_anwendbarkeit(self,n,a,b):
+        
+        anwendbarkeit = False
 
-            for i in range(groesse):                            #z.b. txt:         1 2 3 4 5
-                zeilea: str = file.readline()                   #                 "1 2 3 4 5"
-                a: list[str] = zeilea.split()                   #                 "1","2","3","4","5"
-                aa = map(float,a)                               #                  1.,2.,3.,4.,5.
-                listea:list[float] = list(aa)                   #                 [1.,2.,3.,4.,5.]
-                matrixa.append(listea)                          #                [[1.,2.,3.,4.,5.],[1.,2.,3.,4.,5.]]
+        if type(n) == int:
+            groesse = True
+        else:
+            groesse = False
 
-            zeileb: str = file.readline()
-            b: list[str] = zeileb.split()
-            bb = map(float,b)
-            vektorb: list[float] = list(bb)
+        zaele = 0
 
-        return groesse,matrixa,vektorb
+        for i in range(n):
+
+            if len(a[i]) == n:
+                zaele += 1
+
+        if zaele == n:
+            matrixa = True
+        else:
+            matrixa = False
+
+        if len(b) == n:
+            vektorb = True
+        else:
+            vektorb = False
+
+        if groesse == True and matrixa == True and vektorb == True:
+            anwendbarkeit = True
+
+        if anwendbarkeit == True:
+            return True
+        
+        else:
+            return False
 
     def loese_gls(self,n,a,b):
         
@@ -90,4 +100,4 @@ class Matrix:
 
         else: beurteilung = "nicht erfolgreich"
 
-        return beurteilung,abstand,bn
+        return beurteilung,abstand
