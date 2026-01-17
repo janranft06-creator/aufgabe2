@@ -7,8 +7,6 @@ def main():
 
     n,a,b,max_iter,tol = dialog.eingabe()
 
-    print(type(n))
-
     matrix = Matrix(max_iter,tol)
 
     if matrix.pruefe_anwendbarkeit(n,a,b) == True:
