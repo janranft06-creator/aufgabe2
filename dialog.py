@@ -11,9 +11,29 @@ class Dialog:
 
         if auswahl == "importieren" or auswahl == "eingeben":
             if auswahl == "importieren":
-                groesse, matrixa, vektorb = self.einlesen_datei()
+                result = self.einlesen_datei()
+                
+                if result is None:
+                    print(
+        "\nDie Datei konnte nicht korrekt eingelesen werden.\n\n"
+        "Erwartetes Dateiformat:\n\n"
+        "1. Zeile: Größe n der Matrix (Ganzzahl)\n"
+        "2. Danach die Zeilen der Matrix A, mit n Elementen getrennt durch Leerzeichen\n"
+        "3. Letzte Zeile: Vektor b mit n Zahlen\n\n"
+        "Beispiel für n = 3:\n\n"
+        "3\n"
+        "1 2 3\n"
+        "4 5 6\n"
+        "7 8 9\n"
+        "1 2 3\n\n"
+        "Bitte korrigieren Sie die Datei und versuchen Sie es erneut.\n"
+    )
+                    return self.eingabe()
+                
+                groesse, matrixa, vektorb = result    
+                    
             if auswahl == "eingeben":
-                self.schreiben_datei()
+                groesse, matrixa, vektorb = self.schreiben_datei()
 
 
             max_iter_default = 100
@@ -27,60 +47,141 @@ class Dialog:
 
             return groesse, matrixa, vektorb, max_iter, tol
         
-        print("Die Eingabe war Fehlerhaft")
+        else:
+             print("Die Eingabe war Fehlerhaft")
+             return self.eingabe()
 
         
 
     
     def einlesen_datei(self):
         
-        dateiname = input("\nBitte geben Sie den TXT-Dateinamen ein.\nFormat `input`, wenn Dateiname `input.txt`: ")
-        datei_pfad = Path(dateiname)
+        dateiname = input("\nBitte geben Sie den TXT-Dateinamen ein.\nFormat: Schreibe `input` oder  `input.txt`: ").strip()
     
-        if not datei_pfad.exists():
-            raise FileNotFoundError("Datei existiert nicht.")
+     # falls nur "input1" eingegeben wurde -> ".txt" ergänzen
+        if not dateiname.endswith(".txt"):
+            dateiname = dateiname + ".txt"
 
-        with open(datei_pfad, mode="r", encoding="utf-8") as file:
+        datei_pfad = Path(dateiname)
+
+        if not datei_pfad.exists():
+            print("Datei existiert nicht. Bitte überprüfen Sie, ob", datei_pfad,"richtig geschrieben ist oder existiert!")
+            return self.einlesen_datei()
+
+        try:
+            with open(datei_pfad, mode="r", encoding="utf-8") as file:
+                    
                     # 1. erste Zeile: die Größe der Matrix
-                    erste_zeile = file.readline()
-                    if not erste_zeile:
-                        raise ValueError("Datei ist leer oder die erste Zeile fehlt.")
-                    groesse = int(erste_zeile.strip())
+                    groesse = int(file.readline().strip())
 
                     # 2. N Zeilen als Matrix einlesen
                     matrixa = []
                     for _ in range(groesse):
-                        zeilea = file.readline()
-                        if not zeilea:
-                            raise ValueError(f"Zu wenige Zeilen: erwartet {groesse}, aber Datei endete früher.")
-                        # Split, float‑Umwandlung, Liste erzeugen
-                        a = zeilea.strip().split()
-                        listea = list(map(float, a))
-                        matrixa.append(listea)
+                        zeile = file.readline().strip().split()
+                        matrixa.append(list(map(float, zeile)))
 
                     # 3. Letzte Zeile als Vektor einlesen
-                    zeileb = file.readline()
-                    if not zeileb:
-                        raise ValueError("Datei enthält keinen Vektorb.")
-                    b = zeileb.strip().split()
-                    vektorb = list(map(float, b))
+                    zeileb = file.readline().strip().split()
+                    vektorb = list(map(float, zeileb))
+                    
+        except Exception:
+            return None
 
         return groesse, matrixa, vektorb
 
-
+    def datei_fehler(self):
+        print("\nDie Datei entspricht nicht den Vorgaben und kann nicht verwendet werden.")
+        print("Bitte eine andere Datei auswählen oder die Datei korrigieren.\n")
 
 
     def schreiben_datei(self):
-         pass
 
-        # filename = input("Dateiname? ")
-        # file_path = Path(__file__).parent / filename
+        dateiname_schreib = input("\nBitte geben Sie den Dateinamen an (z.B. input1 oder input1.txt): ").strip()
 
-        # # Use 'with' for automatic cleanup
-        # try:
-        #     with open(file_path, mode="w", encoding="utf-8") as file:
-        #         file.write("Dies\n")
-        #         file.write("ist meine neue Datei :-)")
+        # falls nur "input1" eingegeben wurde -> ".txt" ergänzen
+        if not dateiname_schreib.endswith(".txt"):
+            dateiname_schreib = dateiname_schreib + ".txt"
 
-        # except FileNotFoundError:
-        #     print(f"Error: Folder is missing.")
+        datei_pfad = Path(dateiname_schreib)
+
+        #Größe der Matrix festlegen
+        groesse = input("\nBitte geben Sie die Größe der Matrix ein (n): ").strip()
+        
+        if not groesse.isdigit():
+            print("Ungültige Größe. Bitte schreiben sie eine Ganzzahlige Zahl.")
+            return self.schreiben_datei()
+
+        groesse = int(groesse)
+
+        print("\nGeben Sie jetzt die Matrix A zeilenweise ein.")
+        print("Pro Zeile genau", groesse, "Zahlen, getrennt durch Leerzeichen.")
+        print("Beispiel:", "1 -2 3.5" if groesse == 3 else "1 -2 3.5 ...")
+
+        matrixa = []
+        
+        #Schreiben der Anzahl groesse an Zeilen für die Matrix
+        for i in range(groesse):
+            
+            while True:
+                zeile = input(f"A Zeile {i+1}: ").strip()
+                teile = zeile.split()
+
+                if len(teile) != groesse:
+                    print("Fehler: Bitte genau", groesse, "Werte eingeben!")
+                    continue
+
+                try:
+                    listea = list(map(float, teile))
+                except ValueError:
+                    print("Fehler: Bitte nur Zahlen eingeben!.")
+                    continue
+
+                matrixa.append(listea)
+                break
+                
+
+        print("\nGeben Sie jetzt den Vektor b ein.")
+        print("Genau", groesse, "Zahlen, getrennt durch Leerzeichen.")
+
+        while True:
+            zeileb = input("b: ").strip()
+            teileb = zeileb.split()
+
+            if len(teileb) != groesse:
+                print("Fehler: Bitte genau",groesse, "Zahlen eingeben!")
+                continue
+
+            try:
+                vektorb = list(map(float, teileb))
+            except ValueError:
+                print("Fehler: Ungültige Zahl im Vektor b. Bitte erneut eingeben!")
+                continue
+            
+            break
+    
+        try:
+            with open(datei_pfad, mode="w", encoding="utf-8") as file:
+
+                # 1. Größe
+                file.write(str(groesse) + "\n")
+
+                # 2. Matrix A
+                for i in range(groesse):
+                    zeile_out = ""
+                    for j in range(groesse):
+                        zeile_out = zeile_out + str(matrixa[i][j]) + " "
+                    file.write(zeile_out.strip() + "\n")
+
+                # 3. Vektor b
+                zeile_out = ""
+                for i in range(groesse):
+                    zeile_out = zeile_out + str(vektorb[i]) + " "
+                file.write(zeile_out.strip() + "\n")
+
+            print(f"\nDatei '{dateiname_schreib}' wurde erstellt und mit Ihren Werten gefüllt.")
+
+        except FileNotFoundError:
+            print("Datei konnte nicht erstellt werden. Bitte erneut.")
+            return self.schreiben_datei()
+
+        return groesse, matrixa, vektorb

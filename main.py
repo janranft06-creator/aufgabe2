@@ -21,6 +21,7 @@ def main():
         print(f"Die Berechnung war {beurteilung}, da der mittlere Abstand von b' zu b {abstand} ist.")
     else:
         print("Die Datei entsprach nicht den Vorgaben")
+        return main()
 
 if __name__ == "__main__":
     main()

@@ -32,7 +32,19 @@ class Matrix:
         else:
             vektorb = False
 
-        if groesse == True and matrixa == True and vektorb == True:
+        zaele1 = 0
+
+        for i in range(n):
+            if a[i][i] != 0:
+                zaele1 += 1
+
+        if zaele1 == n:
+            diagonale = True
+        else:
+            diagonale = False
+            print("Die Diagona")
+
+        if groesse == True and matrixa == True and vektorb == True and diagonale == True:
             anwendbarkeit = True
 
         if anwendbarkeit == True:
@@ -70,15 +82,15 @@ class Matrix:
 
             euklid = sum(math.sqrt(((x[i]) - (xn[i]))**2) for i in range(len(x)))
 
+            iteration += 1
+
             if self.epsillon > euklid and iteration != 0:
-                return x,iteration+1,euklid
+                return x,iteration,euklid
 
             for i in range(n):
                 x[i] = xn[i]
 
-            iteration += 1
-
-        return x,iteration+1,euklid
+        return x,iteration,euklid
 
     def beurteilung_erfolg(self,n,a,b,x):
 
