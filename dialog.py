@@ -7,7 +7,7 @@ class Dialog:
 
     def eingabe(self):
 
-        auswahl = input("Wollen Sie ein GLS aus einer Datei importieren, so geben Sie `importieren`ein, oder selber ein GLS eingeben, so geben Sie `eingeben` ein: ")
+        auswahl = input("\nWählen Sie `importieren` oder `eingeben`: ")
 
         if auswahl == "importieren" or auswahl == "eingeben":
             if auswahl == "importieren":
@@ -36,19 +36,19 @@ class Dialog:
                 groesse, matrixa, vektorb = self.schreiben_datei()
 
 
-            max_iter_default = 100
-            tol_default = 1e-6
+            max_iteration_standard = 100
+            toleranz_standard = 1e-6
 
-            eingabe_iter = input("Maximale Iterationen (Enter = Standard): ")
-            eingabe_tol = input("Genauigkeit (Enter = Standard): ")
+            eingabe_iteration = input("\nMaximale Iterationen (Enter = Standard): ")
+            eingabe_toleranz = input("Genauigkeit (Enter = Standard): ")
 
-            max_iter = int(eingabe_iter) if eingabe_iter else max_iter_default
-            tol = float(eingabe_tol) if eingabe_tol else tol_default
+            max_iteration = int(eingabe_iteration) if eingabe_iteration else max_iteration_standard
+            toleranz = float(eingabe_toleranz) if eingabe_toleranz else toleranz_standard
 
-            return groesse, matrixa, vektorb, max_iter, tol
+            return groesse, matrixa, vektorb, max_iteration, toleranz
         
         else:
-             print("Die Eingabe war Fehlerhaft")
+             print("\nDie Eingabe war Fehlerhaft")
              return self.eingabe()
 
         

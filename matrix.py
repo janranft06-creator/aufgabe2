@@ -26,11 +26,15 @@ class Matrix:
             matrixa = True
         else:
             matrixa = False
+            print("\n Die Matrix A hat nicht die geforderte Form")
+            print(a)
 
         if len(b) == n:
             vektorb = True
         else:
             vektorb = False
+            print("\nDer Vektor b hat nicht die geforderte Größe")
+            print(b)
 
         zaele1 = 0
 
@@ -42,7 +46,7 @@ class Matrix:
             diagonale = True
         else:
             diagonale = False
-            print("Die Diagona")
+            print("\nEs existiert ein aii = 0")
 
         if groesse == True and matrixa == True and vektorb == True and diagonale == True:
             anwendbarkeit = True
@@ -80,7 +84,7 @@ class Matrix:
 
                 xn[i] = (1/a[i][i]) * (b[i]-s1-s2)
 
-            euklid = sum(math.sqrt(((x[i]) - (xn[i]))**2) for i in range(len(x)))
+            euklid = math.sqrt(sum(((x[i]) - (xn[i]))**2 for i in range(len(x))))
 
             iteration += 1
 
@@ -105,11 +109,12 @@ class Matrix:
             for o in range(n):
                 bn[i] += a[i][o] * x[o]
 
-        abstand = sum(math.sqrt(((bn[i]) - (b[i]))**2) for i in range(n))   
+        abstand = math.sqrt(sum(((bn[i]) - (b[i]))**2 for i in range(n)))   
 
         if forderung >= abstand:
                 beurteilung = "erfolgreich"
 
-        else: beurteilung = "nicht erfolgreich"
+        else:
+            beurteilung = "nicht erfolgreich"
 
         return beurteilung,abstand

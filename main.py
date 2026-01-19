@@ -14,11 +14,13 @@ def main():
         x, iterationen, entfernung = matrix.loese_gls(n,a,b)
 
         beurteilung, abstand = matrix.beurteilung_erfolg(n,a,b,x)
-
-        print(f"Ein näherungsweise passender Vektor x: {x}")
+        print(f"\nEin näherungsweise passender Vektor x:")
+        for i in range(n):
+            print(f"x({i+1}) = {x[i]}")
         print(f"Die Anzahl der vollendeten Iterationen: {iterationen}")
         print(f"Die hinterbliebende euklidische Entfernung: {entfernung}")
         print(f"Die Berechnung war {beurteilung}, da der mittlere Abstand von b' zu b {abstand} ist.")
+
     else:
         print("Die Datei entsprach nicht den Vorgaben")
         return main()
