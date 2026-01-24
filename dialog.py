@@ -7,7 +7,7 @@ class Dialog:
 
     def eingabe(self):
 
-        auswahl = input("\nWählen Sie `importieren` oder `eingeben`: ")
+        auswahl = input("\nWählen Sie `importieren` oder `eingeben`: ").strip()
 
         if auswahl == "importieren" or auswahl == "eingeben":
             if auswahl == "importieren":
@@ -20,7 +20,7 @@ class Dialog:
         "1. Zeile: Größe n der Matrix (Ganzzahl)\n"
         "2. Danach die Zeilen der Matrix A, mit n Elementen getrennt durch Leerzeichen\n"
         "3. Letzte Zeile: Vektor b mit n Zahlen\n\n"
-        "Beispiel für n = 3:\n\n"
+        "Beispiel für dimension = 3:\n\n"
         "3\n"
         "1 2 3\n"
         "4 5 6\n"
@@ -30,25 +30,50 @@ class Dialog:
     )
                     return self.eingabe()
                 
-                groesse, matrixa, vektorb = result    
+                dimension, matrixa, vektorb = result    
                     
             if auswahl == "eingeben":
-                groesse, matrixa, vektorb = self.schreiben_datei()
-
+                dimension, matrixa, vektorb = self.schreiben_datei()
 
             max_iteration_standard = 100
             toleranz_standard = 1e-6
 
-            eingabe_iteration = "jaa"
-            while eingabe_iteration != int:
-                eingabe_iteration = int(input("\nMaximale Iterationen (Enter = Standard): "))
+            while True:
+                eingabe_iteration = input("\nMaximale Iterationen (Enter = Standard): ").strip()
 
-            eingabe_toleranz = input("Genauigkeit (Enter = Standard): ")
+                if eingabe_iteration == "":
+                    max_iteration = max_iteration_standard
+                    break
 
-            max_iteration = int(eingabe_iteration) if eingabe_iteration else max_iteration_standard
-            toleranz = float(eingabe_toleranz) if eingabe_toleranz else toleranz_standard
+                try:
+                    max_iteration = int(eingabe_iteration)
+                    if max_iteration <= 0:
+                        raise ValueError
+                except ValueError:
+                    print("Die Iterationen sind falsch!")
+                    continue
+            
+                break
+                
 
-            return groesse, matrixa, vektorb, max_iteration, toleranz
+            while True:
+                eingabe_toleranz = input("Genauigkeit (Enter = Standard): ").strip()
+
+                if eingabe_toleranz == "":
+                    toleranz = toleranz_standard
+                    break
+
+                try:
+                    toleranz = float(eingabe_toleranz)
+                    if toleranz <= 0:
+                        raise ValueError 
+                except ValueError:
+                    print("Die Toleranz ist falsch!\n")
+                    continue
+
+                break   
+
+            return dimension, matrixa, vektorb, max_iteration, toleranz
         
         else:
              print("\nDie Eingabe war Fehlerhaft")
@@ -75,11 +100,11 @@ class Dialog:
             with open(datei_pfad, mode="r", encoding="utf-8") as file:
                     
                     # 1. erste Zeile: die Größe der Matrix
-                    groesse = int(file.readline().strip())
+                    dimension = int(file.readline().strip())
 
                     # 2. N Zeilen als Matrix einlesen
                     matrixa = []
-                    for _ in range(groesse):
+                    for _ in range(dimension):
                         zeile = file.readline().strip().split()
                         matrixa.append(list(map(float, zeile)))
 
@@ -90,7 +115,7 @@ class Dialog:
         except Exception:
             return None
 
-        return groesse, matrixa, vektorb
+        return dimension, matrixa, vektorb
 
     def datei_fehler(self):
         print("\nDie Datei entspricht nicht den Vorgaben und kann nicht verwendet werden.")
@@ -108,29 +133,29 @@ class Dialog:
         datei_pfad = Path(dateiname_schreib)
 
         #Größe der Matrix festlegen
-        groesse = input("\nBitte geben Sie die Größe der Matrix ein (n): ").strip()
+        dimension = input("\nBitte geben Sie die Anzahl der Dimensionen ein: ").strip()
         
-        if not groesse.isdigit():
+        if not dimension.isdigit():
             print("Ungültige Größe. Bitte schreiben sie eine Ganzzahlige Zahl.")
             return self.schreiben_datei()
 
-        groesse = int(groesse)
+        dimension = int(dimension)
 
         print("\nGeben Sie jetzt die Matrix A zeilenweise ein.")
-        print("Pro Zeile genau", groesse, "Zahlen, getrennt durch Leerzeichen.")
-        print("Beispiel:", "1 -2 3.5" if groesse == 3 else "1 -2 3.5 ...")
+        print("Pro Zeile genau", dimension, "Zahlen, getrennt durch Leerzeichen.")
+        print("Beispiel:", "1 -2 3.5" if dimension == 3 else "1 -2 3.5 ...")
 
         matrixa = []
         
-        #Schreiben der Anzahl groesse an Zeilen für die Matrix
-        for i in range(groesse):
+        #Schreiben der Anzahl diemensionen an Zeilen für die Matrix
+        for i in range(dimension):
             
             while True:
                 zeile = input(f"A Zeile {i+1}: ").strip()
                 teile = zeile.split()
 
-                if len(teile) != groesse:
-                    print("Fehler: Bitte genau", groesse, "Werte eingeben!")
+                if len(teile) != dimension:
+                    print("Fehler: Bitte genau", dimension, "Werte eingeben!")
                     continue
 
                 try:
@@ -144,14 +169,14 @@ class Dialog:
                 
 
         print("\nGeben Sie jetzt den Vektor b ein.")
-        print("Genau", groesse, "Zahlen, getrennt durch Leerzeichen.")
+        print("Genau", dimension, "Zahlen, getrennt durch Leerzeichen.")
 
         while True:
             zeileb = input("b: ").strip()
             teileb = zeileb.split()
 
-            if len(teileb) != groesse:
-                print("Fehler: Bitte genau",groesse, "Zahlen eingeben!")
+            if len(teileb) != dimension:
+                print("Fehler: Bitte genau",dimension, "Zahlen eingeben!")
                 continue
 
             try:
@@ -166,18 +191,18 @@ class Dialog:
             with open(datei_pfad, mode="w", encoding="utf-8") as file:
 
                 # 1. Größe
-                file.write(str(groesse) + "\n")
+                file.write(str(dimension) + "\n")
 
                 # 2. Matrix A
-                for i in range(groesse):
+                for i in range(dimension):
                     zeile_out = ""
-                    for j in range(groesse):
+                    for j in range(dimension):
                         zeile_out = zeile_out + str(matrixa[i][j]) + " "
                     file.write(zeile_out.strip() + "\n")
 
                 # 3. Vektor b
                 zeile_out = ""
-                for i in range(groesse):
+                for i in range(dimension):
                     zeile_out = zeile_out + str(vektorb[i]) + " "
                 file.write(zeile_out.strip() + "\n")
 
@@ -187,4 +212,4 @@ class Dialog:
             print("Datei konnte nicht erstellt werden. Bitte erneut.")
             return self.schreiben_datei()
 
-        return groesse, matrixa, vektorb
+        return dimension, matrixa, vektorb
