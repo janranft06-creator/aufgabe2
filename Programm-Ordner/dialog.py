@@ -18,7 +18,7 @@ class Dialog:
                     print(
         "\nDie Datei konnte nicht korrekt eingelesen werden.\n\n"
         "Erwartetes Dateiformat:\n\n"
-        "1. Zeile: Größe n der Matrix (Ganzzahl)\n"
+        "1. Zeile: Dimension n der Matrix (Ganzzahl)\n"
         "2. Danach die Zeilen der Matrix A, mit n Elementen getrennt durch Leerzeichen\n"
         "3. Letzte Zeile: Vektor b mit n Zahlen\n\n"
         "Beispiel für dimension = 3:\n\n"

@@ -5,21 +5,21 @@ def main():
 
     dialog = Dialog()
 
-    dimension,a,b,max_iter,tol = dialog.eingabe()
+    dimension, a_matrix, b_vektor, max_iteration, min_epsilon = dialog.eingabe()
 
-    matrix = Matrix(max_iter,tol)
+    matrix = Matrix(max_iteration, min_epsilon)
 
-    if matrix.pruefe_anwendbarkeit(dimension,a,b) == True:
+    if matrix.pruefe_anwendbarkeit(dimension, a_matrix, b_vektor) == True:
 
-        x, iterationen, entfernung = matrix.loese_gls(dimension,a,b)
+        x_vektor, end_iteration, end_epsilon = matrix.loese_gls(dimension, a_matrix, b_vektor)
 
-        beurteilung, abstand = matrix.beurteilung_loesungsvektor(dimension,a,b,x)
+        beurteilung_ergebnis, abstand_b_b_neu = matrix.beurteilung_berechnung(dimension, a_matrix, b_vektor, x_vektor)
         print(f"\nEin näherungsweise passender Vektor x:")
         for i in range(dimension):
-            print(f"x({i+1}) = {x[i]}")
-        print(f"Die Anzahl der vollendeten Iterationen: {iterationen}")
-        print(f"Die hinterbliebende euklidische Entfernung: {entfernung}")
-        print(f"Die Berechnung war {beurteilung}, da der mittlere Abstand von b' zu b {abstand} ist.")
+            print(f"x({i+1}) = {x_vektor[i]}")
+        print(f"Die Anzahl der vollendeten Iterationen: {end_iteration}")
+        print(f"Die hinterbliebende euklidische Entfernung: {end_epsilon}")
+        print(f"Die Berechnung war {beurteilung_ergebnis}, da der mittlere Abstand von b' zu b {abstand_b_b_neu} ist.")
 
     else:
         print("Die Datei entsprach nicht den Vorgaben")
