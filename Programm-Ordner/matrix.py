@@ -14,10 +14,8 @@ class Matrix:
     # In dieser Methode wird geprüft, ob das Verfahren anwendbar ist.     
     def pruefe_anwendbarkeit(self,dimension, a_matrix, b_vektor):
 
-        if type(dimension) == int:
-            groesse = True
-        else:
-            groesse = False
+        if not type(dimension) == int:
+            return False
 
         zaele = 0
 
@@ -26,37 +24,26 @@ class Matrix:
             if len(a_matrix[i]) == dimension:
                 zaele += 1
 
-        if zaele == dimension:
-            matrixa = True
-        else:
-            matrixa = False
+        if zaele != dimension:
             print("\n Die Matrix A hat nicht die geforderte Form")
-            print(a_matrix)
-
-        if len(b_vektor) == dimension:
-            vektorb = True
-        else:
-            vektorb = False
+            return False
+            
+        if len(b_vektor) != dimension:
             print("\nDer Vektor b hat nicht die geforderte Größe")
-            print(b_vektor)
-
-        zaele1 = 0
+            return False
+            
+        zaele = 0
 
         for i in range(dimension):
             if a_matrix[i][i] != 0:
-                zaele1 += 1
+                zaele += 1
 
-        if zaele1 == dimension:
-            diagonale = True
-        else:
-            diagonale = False
+        if zaele != dimension:
             print("\nEs existiert ein aii = 0")
-
-        if groesse == True and matrixa == True and vektorb == True and diagonale == True:
-            return True
+            return False
 
         else:
-            return False
+            return True
 
     # In dieser Methode wird die Iterationsvorschrift angewendet.  
     def loese_gls(self,dimension,a_matrix,b_vektor):
@@ -81,12 +68,18 @@ class Matrix:
 
                 x_neu_vektor[i] = (1/a_matrix[i][i]) * (b_vektor[i]-summe_1-summe_2)
 
-            euklidische_distanz = math.sqrt(sum(((x_vektor[i]) - (x_neu_vektor[i]))**2 for i in range(len(x_vektor))))
+            summen_quadrat = 0
+
+            for i in range(dimension):
+                differenz = x_vektor[i] - x_neu_vektor[i]
+                summen_quadrat += differenz**2
+
+            euklidische_distanz = math.sqrt(summen_quadrat)
 
             iteration += 1
 
             if self.min_epsilon > euklidische_distanz and iteration != 0:
-                return x_vektor,iteration,euklidische_distanz
+                return x_vektor, iteration, euklidische_distanz
 
             for i in range(dimension):
                 x_vektor[i] = x_neu_vektor[i]
@@ -105,9 +98,15 @@ class Matrix:
 
         for i in range(dimension):
             for o in range(dimension):
-                b_neu_vektor[i] += a_matrix[i][o] * x_vektor[o]
+                b_neu_vektor[i] += a_matrix[i][o] * x_vektor[o]   
 
-        abstand_b_b_neu = math.sqrt(sum(((b_neu_vektor[i]) - (b_vektor[i]))**2 for i in range(dimension)))   
+        summen_quadrat = 0
+
+        for i in range(dimension):
+            differenz = b_vektor[i] - b_neu_vektor[i]
+            summen_quadrat += differenz**2
+
+        abstand_b_b_neu = math.sqrt(summen_quadrat)
 
         if epsilon_gefordert >= abstand_b_b_neu:
                 beurteilung_ergebnis = f"{GREEN}{BOLD}erfolgreich{RESET}"
@@ -115,4 +114,4 @@ class Matrix:
         else:
             beurteilung_ergebnis = f"{RED}{BOLD}nicht erfolgreich{RESET}"
 
-        return beurteilung_ergebnis,abstand_b_b_neu
+        return beurteilung_ergebnis, abstand_b_b_neu
