@@ -39,7 +39,10 @@ class Dialog:
             max_iteration_standard = 100
             toleranz_standard = 1e-6
 
-            eingabe_iteration = input("\nMaximale Iterationen (Enter = Standard): ")
+            eingabe_iteration = "jaa"
+            while eingabe_iteration != int:
+                eingabe_iteration = int(input("\nMaximale Iterationen (Enter = Standard): "))
+
             eingabe_toleranz = input("Genauigkeit (Enter = Standard): ")
 
             max_iteration = int(eingabe_iteration) if eingabe_iteration else max_iteration_standard

@@ -1,6 +1,11 @@
 from matrix import Matrix
 from dialog import Dialog
 
+BOLD = "\033[1m"
+GREEN = "\033[32m"
+RED = "\033[31m"
+RESET = "\033[0m"
+
 def main():
 
     dialog = Dialog()
@@ -20,6 +25,8 @@ def main():
         print(f"Die Anzahl der vollendeten Iterationen: {iterationen}")
         print(f"Die hinterbliebende euklidische Entfernung: {entfernung}")
         print(f"Die Berechnung war {beurteilung}, da der mittlere Abstand von b' zu b {abstand} ist.")
+        if beurteilung == "nicht erfolgreich":
+            print("Die Matrix hat keine Lösung")
 
     else:
         print("Die Datei entsprach nicht den Vorgaben")

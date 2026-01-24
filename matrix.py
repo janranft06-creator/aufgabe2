@@ -1,5 +1,10 @@
 import math
 
+BOLD = "\033[1m"
+GREEN = "\033[32m"
+RED = "\033[31m"
+RESET = "\033[0m"
+
 class Matrix:
         
     def __init__(self,anzahl:int,epsillon:float):
@@ -112,9 +117,9 @@ class Matrix:
         abstand = math.sqrt(sum(((bn[i]) - (b[i]))**2 for i in range(n)))   
 
         if forderung >= abstand:
-                beurteilung = "erfolgreich"
+                beurteilung = f"{GREEN}{BOLD}erfolgreich{RESET}"
 
         else:
-            beurteilung = "nicht erfolgreich"
+            beurteilung = f"{RED}{BOLD}nicht erfolgreich{RESET}"
 
         return beurteilung,abstand
