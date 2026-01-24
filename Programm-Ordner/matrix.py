@@ -94,7 +94,7 @@ class Matrix:
         return x,iteration,euklidische_distanz
 
     # In dieser Methode wird festgestellt, ob die Berechnung erfolgreich war.  
-    def beurteilung_loesungsvektor(self,dimension,a,b,x):
+    def beurteilung_berechnung(self,dimension,a,b,x):
 
         forderung = 0.01
 
