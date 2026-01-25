@@ -6,9 +6,7 @@ class Dialog:
     def __init__(self):
         self.daten_ordner = Path(__file__).resolve().parent.parent / "data"
 
-    # --------------------------------------------------
-    # Zentrale Eingabe
-    # --------------------------------------------------
+    # In dieser Methode ist die gesamte Kommunikation.
     def eingabe(self):
 
         auswahl = input("\nWählen Sie `importieren` oder `eingeben`: ").strip()
@@ -27,9 +25,6 @@ class Dialog:
             print("\nDie Eingabe war fehlerhaft.")
             return self.eingabe()
 
-        # -------------------------
-        # Parameter abfragen
-        # -------------------------
         max_iteration_standard = 100
         toleranz_standard = 1e-6
 
@@ -61,9 +56,7 @@ class Dialog:
 
         return dimension, matrixa, vektorb, max_iteration, toleranz
 
-    # --------------------------------------------------
-    # Datei einlesen
-    # --------------------------------------------------
+    # In dieser Methode wird die Datei eingelesen. 
     def einlesen_datei(self):
 
         dateiname = input("\nBitte geben Sie den Dateinamen ein: ").strip()
@@ -130,9 +123,7 @@ class Dialog:
 
         return dimension, matrixa, vektorb
 
-    # --------------------------------------------------
-    # Datei schreiben
-    # --------------------------------------------------
+    # In dieser Methode kann eine neue Datei angelegt werden.
     def schreiben_datei(self):
 
         dateiname = input("\nSpeichern unter dem Dateinamen: ").strip()
@@ -181,4 +172,5 @@ class Dialog:
             file.write(" ".join(map(str, vektorb)) + "\n")
 
         print(f"\nDatei '{dateiname}' wurde erfolgreich gespeichert.")
+        
         return dimension, matrixa, vektorb
