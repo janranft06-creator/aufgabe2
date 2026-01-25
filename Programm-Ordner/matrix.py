@@ -43,15 +43,11 @@ class Matrix:
             print("\nEs existiert ein aii = 0")
             return False
         
-        diagonaldominant = True
-        
         for i in range(dimension):
             reihe_summe = 0
             for j in range(dimension):
                 if i != j: 
-                    wert = a_matrix[i][j]
-                    if wert < 0:
-                        wert = -wert
+                    wert = abs(a_matrix[i][j])
                     reihe_summe += wert
             
             diagonal_wert = a_matrix[i][i]
@@ -59,24 +55,18 @@ class Matrix:
                 diagonal_wert = -diagonal_wert
             
             if diagonal_wert <= reihe_summe:
-                diagonaldominant = False
-        
-        if diagonaldominant == False:
-            print("Warnung: Matrix ist nicht strikt diagonaldominant. Verfahren könnte divergieren.")
-            return True
-
-        else:
-            return True
+                print("\nWarnung: Matrix ist nicht strikt diagonaldominant. Verfahren könnte divergieren.")
+                break
+            
+        return True
 
     # In dieser Methode wird die Iterationsvorschrift angewendet.  
     def loese_gls(self,dimension,a_matrix,b_vektor):
-        
-        iteration = 0
 
         x_vektor:list[float] = [0 for i in range(dimension)]
         x_neu_vektor:list[float] = [0 for i in range(dimension)]
 
-        for u in range(self.max_iteration):
+        for iteration in range(1,self.max_iteration+1):
 
             for i in range(dimension):
                 summe_1 = 0
@@ -93,12 +83,10 @@ class Matrix:
 
             euklidische_distanz = math.sqrt(sum(((x_vektor[i]) - (x_neu_vektor[i]))**2 for i in range(dimension)))
 
-            iteration += 1
-            
+            x_vektor = x_neu_vektor.copy()
+
             if self.min_epsilon > euklidische_distanz and iteration != 0:
                 return x_vektor, iteration, euklidische_distanz
-
-            x_vektor = x_neu_vektor.copy()
 
         return x_vektor,iteration,euklidische_distanz
 
