@@ -4,7 +4,7 @@ from pathlib import Path
 class Dialog:
 
     def __init__(self):
-        self.daten_ordner = Path(__file__).resolve().parent.parent / "Datei-Ordner"
+        self.daten_ordner = Path(__file__).resolve().parent.parent / "data"
 
     # --------------------------------------------------
     # Zentrale Eingabe
