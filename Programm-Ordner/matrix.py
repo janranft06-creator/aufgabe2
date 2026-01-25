@@ -83,6 +83,10 @@ class Matrix:
 
             euklidische_distanz = math.sqrt(sum(((x_vektor[i]) - (x_neu_vektor[i]))**2 for i in range(dimension)))
 
+            if euklidische_distanz > 1e100:
+                print("\nDie euklidische Distanz ist zu groß.")
+                break
+
             x_vektor = x_neu_vektor.copy()
 
             if self.min_epsilon > euklidische_distanz and iteration != 0:
