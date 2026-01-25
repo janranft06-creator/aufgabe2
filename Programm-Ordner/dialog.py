@@ -10,31 +10,16 @@ class Dialog:
 
         auswahl = input("\nWählen Sie `importieren` oder `eingeben`: ").strip()
 
-        if auswahl == "importieren" or auswahl == "eingeben":
-            if auswahl == "importieren":
-                result = self.einlesen_datei()
-                
-                if result is None:
-                    print(
-        "\nDie Datei konnte nicht korrekt eingelesen werden.\n\n"
-        "Erwartetes Dateiformat:\n\n"
-        "1. Zeile: Dimension n der Matrix (Ganzzahl)\n"
-        "2. Danach die Zeilen der Matrix A, mit n Elementen getrennt durch Leerzeichen\n"
-        "3. Letzte Zeile: Vektor b mit n Zahlen\n\n"
-        "Beispiel für dimension = 3:\n\n"
-        "3\n"
-        "1 2 3\n"
-        "4 5 6\n"
-        "7 8 9\n"
-        "1 2 3\n\n"
-        "Bitte korrigieren Sie die Datei und versuchen Sie es erneut.\n"
-    )
-                    return self.eingabe()
-                
-                dimension, matrixa, vektorb = result    
+        if auswahl == "importieren":
+            try:
+                dimension, matrixa, vektorb = self.einlesen_datei()
+            except Exception as e:
+                print(f"{e}")
                     
-            if auswahl == "eingeben":
-                dimension, matrixa, vektorb = self.schreiben_datei()
+        if auswahl == "eingeben":
+            dimension, matrixa, vektorb = self.schreiben_datei()
+
+        if auswahl == "importieren" or auswahl == "eingeben":
 
             max_iteration_standard = 100
             toleranz_standard = 1e-6
@@ -103,6 +88,20 @@ class Dialog:
                     
                     # 1. erste Zeile: die Größe der Matrix
                     dimension = int(file.readline().strip())
+
+                    if dimension == 0:
+                        raise Exception("\nDie Datei konnte nicht korrekt eingelesen werden.\n\n"
+                        "Erwartetes Dateiformat:\n\n"
+                        "1. Zeile: Dimension n der Matrix (Ganzzahl)\n"
+                        "2. Danach die Zeilen der Matrix A, mit n Elementen getrennt durch Leerzeichen\n"
+                        "3. Letzte Zeile: Vektor b mit n Zahlen\n\n"
+                        "Beispiel für dimension = 3:\n\n"
+                        "3\n"
+                        "1 2 3\n"
+                        "4 5 6\n"
+                        "7 8 9\n"
+                        "1 2 3\n\n"
+                        "Bitte korrigieren Sie die Datei und versuchen Sie es erneut.\n")
 
                     # 2. N Zeilen als Matrix einlesen
                     matrixa = []
