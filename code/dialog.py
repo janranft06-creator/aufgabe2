@@ -67,9 +67,7 @@ class Dialog:
             raise Exception(f"\nDatei '{dateiname}' wurde im Datei-Ordner nicht gefunden.\n")
 
         if datei_pfad.stat().st_size == 0:
-            raise Exception(
-                "\nDie Datei ist leer (0 Bytes) und kann nicht eingelesen werden.\n"
-            )
+            raise Exception("\nDie Datei ist leer (0 Bytes) und kann nicht eingelesen werden.\n")
 
         try:
             with open(datei_pfad, mode="r", encoding="utf-8") as file:
@@ -85,13 +83,12 @@ class Dialog:
             except ValueError:
                 raise Exception(
                     "\nDie erste Zeile der Datei muss eine positive Ganzzahl sein "
-                    "(Dimension der Matrix).\n"
-                )
+                    "(Dimension der Matrix).\n")
 
             if len(zeilen) != dimension + 2:
-                raise Exception(
-                    "\nDie Anzahl der Zeilen passt nicht zur angegebenen Dimension.\n"
-                )
+                raise Exception("\nDie Anzahl der Zeilen passt nicht zur angegebenen Dimension.\n")
+
+            print("\nZahlen werden getrennt durch ein Leerzeichen hintereinander eingegeben.\nGeben Sie jetzt die Matrix A ein:")
 
             matrixa = []
             for i in range(1, dimension + 1):
