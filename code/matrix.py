@@ -10,8 +10,7 @@ class Matrix:
     def __init__(self, max_iteration:int, min_epsilon:float):
         self.max_iteration = max_iteration
         self.min_epsilon = min_epsilon
-
-    # In dieser Methode wird geprüft, ob das Verfahren anwendbar ist.     
+ 
     def pruefe_anwendbarkeit(self,dimension, a_matrix, b_vektor):
 
         if not type(dimension) == int:
@@ -59,8 +58,7 @@ class Matrix:
                 break
             
         return True
-
-    # In dieser Methode wird die Iterationsvorschrift angewendet.  
+  
     def loese_gls(self, dimension: int, a_matrix: list[list[float]], b_vektor: list[float]):
 
         x_vektor:list[float] = [0 for i in range(dimension)]
@@ -93,8 +91,7 @@ class Matrix:
                 return x_vektor, iteration, euklidische_distanz
 
         return x_vektor,iteration,euklidische_distanz
-
-    # In dieser Methode wird festgestellt, ob die Berechnung erfolgreich war.  
+ 
     def beurteilung_berechnung(self,dimension: int, a_matrix: list[list[float]], b_vektor: list[float], x_vektor: list[float]):
 
         epsilon_gefordert = 0.01

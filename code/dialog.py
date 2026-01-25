@@ -6,7 +6,6 @@ class Dialog:
     def __init__(self):
         self.daten_ordner = Path(__file__).resolve().parent.parent / "data"
 
-    # In dieser Methode ist die gesamte Kommunikation.
     def eingabe(self):
 
         auswahl = input("\nWählen Sie `importieren` oder `eingeben`: ").strip()
@@ -56,7 +55,6 @@ class Dialog:
 
         return dimension, matrixa, vektorb, max_iteration, toleranz
 
-    # In dieser Methode wird die Datei eingelesen. 
     def einlesen_datei(self):
 
         dateiname = input("\nBitte geben Sie den Dateinamen ein: ").strip()
@@ -80,7 +78,6 @@ class Dialog:
             if not zeilen:
                 raise Exception("\nDie Datei enthält keine verwertbaren Daten.\n")
 
-            # Dimension
             try:
                 dimension = int(zeilen[0])
                 if dimension <= 0:
@@ -96,7 +93,6 @@ class Dialog:
                     "\nDie Anzahl der Zeilen passt nicht zur angegebenen Dimension.\n"
                 )
 
-            # Matrix A
             matrixa = []
             for i in range(1, dimension + 1):
                 try:
@@ -109,7 +105,6 @@ class Dialog:
 
                 matrixa.append(werte)
 
-            # Vektor b
             try:
                 vektorb = list(map(float, zeilen[-1].split()))
             except ValueError:
@@ -123,7 +118,6 @@ class Dialog:
 
         return dimension, matrixa, vektorb
 
-    # In dieser Methode kann eine neue Datei angelegt werden.
     def schreiben_datei(self):
 
         dateiname = input("\nSpeichern unter dem Dateinamen: ").strip()
@@ -172,5 +166,5 @@ class Dialog:
             file.write(" ".join(map(str, vektorb)) + "\n")
 
         print(f"\nDatei '{dateiname}' wurde erfolgreich gespeichert.")
-        
+
         return dimension, matrixa, vektorb
