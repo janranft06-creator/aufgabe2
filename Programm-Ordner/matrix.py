@@ -61,7 +61,7 @@ class Matrix:
         return True
 
     # In dieser Methode wird die Iterationsvorschrift angewendet.  
-    def loese_gls(self,dimension,a_matrix,b_vektor):
+    def loese_gls(self, dimension: int, a_matrix: list[list[float]], b_vektor: list[float]):
 
         x_vektor:list[float] = [0 for i in range(dimension)]
         x_neu_vektor:list[float] = [0 for i in range(dimension)]
@@ -91,7 +91,7 @@ class Matrix:
         return x_vektor,iteration,euklidische_distanz
 
     # In dieser Methode wird festgestellt, ob die Berechnung erfolgreich war.  
-    def beurteilung_berechnung(self,dimension, a_matrix, b_vektor, x_vektor):
+    def beurteilung_berechnung(self,dimension: int, a_matrix: list[list[float]], b_vektor: list[float], x_vektor: list[float]):
 
         epsilon_gefordert = 0.01
 
