@@ -15,6 +15,7 @@ class Matrix:
     def pruefe_anwendbarkeit(self,dimension, a_matrix, b_vektor):
 
         if not type(dimension) == int:
+            print("Die Dimension ist nicht eindeutig")
             return False
 
         zaele = 0
@@ -41,6 +42,28 @@ class Matrix:
         if zaele != dimension:
             print("\nEs existiert ein aii = 0")
             return False
+        
+        diagonaldominant = True
+        
+        for i in range(dimension):
+            reihe_summe = 0
+            for j in range(dimension):
+                if i != j: 
+                    wert = a_matrix[i][j]
+                    if wert < 0:
+                        wert = -wert
+                    reihe_summe += wert
+            
+            diagonal_wert = a_matrix[i][i]
+            if diagonal_wert < 0:
+                diagonal_wert = -diagonal_wert
+            
+            if diagonal_wert <= reihe_summe:
+                diagonaldominant = False
+        
+        if diagonaldominant == False:
+            print("Warnung: Matrix ist nicht strikt diagonaldominant. Verfahren könnte divergieren.")
+            return True
 
         else:
             return True
@@ -68,21 +91,14 @@ class Matrix:
 
                 x_neu_vektor[i] = (1/a_matrix[i][i]) * (b_vektor[i]-summe_1-summe_2)
 
-            summen_quadrat = 0
-
-            for i in range(dimension):
-                differenz = x_vektor[i] - x_neu_vektor[i]
-                summen_quadrat += differenz**2
-
-            euklidische_distanz = math.sqrt(summen_quadrat)
+            euklidische_distanz = math.sqrt(sum(((x_vektor[i]) - (x_neu_vektor[i]))**2 for i in range(dimension)))
 
             iteration += 1
-
+            
             if self.min_epsilon > euklidische_distanz and iteration != 0:
                 return x_vektor, iteration, euklidische_distanz
 
-            for i in range(dimension):
-                x_vektor[i] = x_neu_vektor[i]
+            x_vektor = x_neu_vektor.copy()
 
         return x_vektor,iteration,euklidische_distanz
 
@@ -100,13 +116,7 @@ class Matrix:
             for o in range(dimension):
                 b_neu_vektor[i] += a_matrix[i][o] * x_vektor[o]   
 
-        summen_quadrat = 0
-
-        for i in range(dimension):
-            differenz = b_vektor[i] - b_neu_vektor[i]
-            summen_quadrat += differenz**2
-
-        abstand_b_b_neu = math.sqrt(summen_quadrat)
+        abstand_b_b_neu = math.sqrt(sum(((b_neu_vektor[i]) - (b_vektor[i]))**2 for i in range(dimension)))   
 
         if epsilon_gefordert >= abstand_b_b_neu:
                 beurteilung_ergebnis = f"{GREEN}{BOLD}erfolgreich{RESET}"
