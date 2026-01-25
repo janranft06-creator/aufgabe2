@@ -88,8 +88,6 @@ class Dialog:
             if len(zeilen) != dimension + 2:
                 raise Exception("\nDie Anzahl der Zeilen passt nicht zur angegebenen Dimension.\n")
 
-            print("\nZahlen werden getrennt durch ein Leerzeichen hintereinander eingegeben.\nGeben Sie jetzt die Matrix A ein:")
-
             matrixa = []
             for i in range(1, dimension + 1):
                 try:
@@ -131,6 +129,9 @@ class Dialog:
             print("Ungültige Größe.")
 
         print("\nGeben Sie jetzt die Matrix A ein:")
+
+        
+        print("\nZahlen werden getrennt durch ein Leerzeichen hintereinander eingegeben.\nGeben Sie jetzt die Matrix A ein:")
         matrixa = []
         for i in range(dimension):
             while True:
